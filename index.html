@@ -1,0 +1,1196 @@
+
+<!doctype html>
+
+<html lang="ro">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Invitație: Mihail &amp; Ana — 9 ani</title>
+<style>
+  :root{
+    --navy: #0b2545;
+    --gold: #d4af37;
+    --white: #ffffff;
+  }
+
+html,body{
+height:100%;margin:0;
+font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+background: radial-gradient(ellipse at 10% 10%, rgba(11,37,69,0.9), rgba(3,10,25,1));
+color:var(--white);
+overflow:hidden;
+}
+
+/* Animated background stars */
+.stars {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 0;
+}
+
+.star {
+position: absolute;
+width: 2px;
+height: 2px;
+background: var(--gold);
+border-radius: 50%;
+animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+0%, 100% { opacity: 0.3; transform: scale(1); }
+50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* Canvas full-screen */
+#fireworkCanvas{
+position:fixed;left:0;top:0;width:100%;height:100%;z-index:1;pointer-events:none;
+}
+
+/* Enhanced curtains with shimmer effect */
+.curtain {
+position:fixed;top:0;height:100%;width:50%;
+background:linear-gradient(180deg,var(--navy),#071428);
+z-index:5;
+transition:transform 1.2s cubic-bezier(.2,.9,.2,1);
+box-shadow: inset 0 0 120px rgba(0,0,0,0.4);
+overflow: hidden;
+}
+
+.curtain::before {
+content: '';
+position: absolute;
+top: 0;
+left: -50%;
+width: 200%;
+height: 100%;
+background: linear-gradient(45deg,
+transparent 30%,
+rgba(212,175,55,0.1) 50%,
+transparent 70%);
+animation: curtainShimmer 4s infinite;
+}
+
+@keyframes curtainShimmer {
+0% { transform: translateX(-100%) skewX(-20deg); }
+100% { transform: translateX(100%) skewX(-20deg); }
+}
+
+.curtain.left{left:0;transform:translateX(0);}
+.curtain.right{right:0;transform:translateX(0);}
+.curtain.open.left{transform:translateX(-100%);}
+.curtain.open.right{transform:translateX(100%);}
+
+/* Stage with entrance animation */
+.stage{
+position:relative;z-index:6;height:100%;display:flex;align-items:center;
+justify-content:center;padding:24px;box-sizing:border-box;
+transform: scale(0.8) rotateY(-20deg);
+opacity: 0;
+transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.stage.visible {
+transform: scale(1) rotateY(0deg);
+opacity: 1;
+}
+
+/* Enhanced card with floating animation */
+.card{
+width:min(920px,92vw);
+background:linear-gradient(180deg, rgba(11,37,69,0.94), rgba(8,18,33,0.98));
+border-radius:12px;padding:28px;
+box-shadow:0 20px 60px rgba(2,6,12,0.8);
+display:flex;gap:24px;align-items:center;
+border:1px solid rgba(212,175,55,0.15);
+position: relative;
+animation: cardFloat 6s ease-in-out infinite;
+transform-style: preserve-3d;
+}
+
+@keyframes cardFloat {
+0%, 100% { transform: translateY(0px) rotateX(0deg); }
+50% { transform: translateY(-10px) rotateX(2deg); }
+}
+
+.card::before {
+content: '';
+position: absolute;
+inset: -2px;
+border-radius: 14px;
+padding: 2px;
+background: linear-gradient(45deg,
+transparent,
+rgba(212,175,55,0.3),
+transparent,
+rgba(212,175,55,0.3),
+transparent);
+mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+mask-composite: xor;
+animation: borderGlow 3s linear infinite;
+opacity: 0.6;
+}
+
+@keyframes borderGlow {
+0% { background-position: 0% 50%; }
+100% { background-position: 200% 50%; }
+}
+
+/* Animated photo frame */
+.photo{
+flex:0 0 320px;height:320px;border-radius:10px;
+background:
+radial-gradient(circle at 10% 10%, rgba(212,175,55,0.07), rgba(255,255,255,0.02)),
+linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.2));
+display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
+border:1px solid rgba(255,255,255,0.03);
+animation: photoGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes photoGlow {
+from { box-shadow: 0 0 20px rgba(212,175,55,0.2); }
+to { box-shadow: 0 0 40px rgba(212,175,55,0.4), inset 0 0 20px rgba(212,175,55,0.1); }
+}
+
+.photo img{
+width:100%;height:100%;object-fit:cover;display:block;
+filter:contrast(1.02) saturate(1.02);
+transition: transform 0.3s ease;
+}
+
+.photo:hover img {
+transform: scale(1.05);
+}
+
+/* Sparkle overlay animation */
+.photo::after{
+content:"";position:absolute;inset:0;
+background:linear-gradient(120deg, rgba(255,255,255,0.02), transparent 25%);
+pointer-events:none;mix-blend-mode:overlay;
+animation: sparkleMove 3s ease-in-out infinite;
+}
+
+@keyframes sparkleMove {
+0% { background-position: -100% -100%; }
+100% { background-position: 100% 100%; }
+}
+
+/* Content animations */
+.content{flex:1;color:var(--white);}
+
+h1{
+margin:0;font-size:34px;color:var(--gold);letter-spacing:0.6px;
+background: linear-gradient(45deg, var(--gold), #f0dca6, var(--gold));
+background-size: 200% 200%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+animation: titleShimmer 3s ease-in-out infinite;
+}
+
+@keyframes titleShimmer {
+0%, 100% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+}
+
+p.lead{
+margin:10px 0 18px;font-size:18px;opacity:0.95;
+animation: textFadeIn 2s ease-out 0.5s both;
+}
+
+@keyframes textFadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 0.95; transform: translateY(0); }
+}
+
+/* Enhanced pills with hover effects */
+.details{
+background:rgba(255,255,255,0.02);padding:14px;border-radius:8px;
+font-size:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+animation: detailsSlideIn 2s ease-out 0.8s both;
+}
+
+@keyframes detailsSlideIn {
+from { opacity: 0; transform: translateX(-30px); }
+to { opacity: 1; transform: translateX(0); }
+}
+
+.pill{
+padding:8px 12px;border-radius:999px;
+border:1px solid rgba(255,255,255,0.04);
+background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.pill::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+transition: left 0.5s ease;
+}
+
+.pill:hover {
+transform: translateY(-2px);
+box-shadow: 0 5px 15px rgba(212,175,55,0.2);
+border-color: rgba(212,175,55,0.3);
+}
+
+.pill:hover::before {
+left: 100%;
+}
+
+.location-pill {
+cursor: pointer;
+}
+
+.location-pill:hover {
+background: linear-gradient(180deg, rgba(212,175,55,0.1), rgba(212,175,55,0.05));
+}
+
+/* Music control styles */
+.music-control {
+position: fixed;
+bottom: 60px;
+right: 20px;
+z-index: 8;
+background: rgba(11,37,69,0.9);
+border: 1px solid rgba(212,175,55,0.3);
+border-radius: 50px;
+padding: 12px 16px;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 14px;
+color: var(--white);
+cursor: pointer;
+transition: all 0.3s ease;
+backdrop-filter: blur(10px);
+}
+
+.music-control:hover {
+background: rgba(11,37,69,1);
+border-color: rgba(212,175,55,0.6);
+transform: translateY(-2px);
+box-shadow: 0 5px 20px rgba(212,175,55,0.2);
+}
+
+.music-icon {
+width: 20px;
+height: 20px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: var(--gold);
+}
+
+@keyframes musicPulse {
+0%, 100% { transform: scale(1); }
+50% { transform: scale(1.1); }
+}
+
+.music-control.playing .music-icon {
+animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+/* Animated buttons */
+.actions{
+margin-top:18px;display:flex;gap:12px;align-items:center;
+animation: actionsSlideIn 2s ease-out 1.1s both;
+}
+
+@keyframes actionsSlideIn {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.btn{
+padding:10px 16px;border-radius:10px;border:0;font-weight:600;cursor:pointer;
+transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+position: relative;
+overflow: hidden;
+}
+
+.btn::before {
+content: '';
+position: absolute;
+top: 50%;
+left: 50%;
+width: 0;
+height: 0;
+border-radius: 50%;
+background: rgba(255,255,255,0.2);
+transition: all 0.4s ease;
+transform: translate(-50%, -50%);
+}
+
+.btn:hover::before {
+width: 300px;
+height: 300px;
+}
+
+.btn.primary{
+background: linear-gradient(45deg, var(--gold), #f0dca6);
+color:var(--navy);
+box-shadow: 0 5px 15px rgba(212,175,55,0.3);
+}
+
+.btn.primary:hover {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(212,175,55,0.5);
+}
+
+.btn.ghost{
+background:transparent;color:var(--white);
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.btn.ghost:hover {
+transform: translateY(-2px);
+border-color: rgba(255,255,255,0.2);
+box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+}
+
+/* Floating particles */
+.floating-particle {
+position: absolute;
+width: 4px;
+height: 4px;
+background: var(--gold);
+border-radius: 50%;
+pointer-events: none;
+animation: floatUp 8s linear infinite;
+}
+
+@keyframes floatUp {
+from {
+transform: translateY(100vh) translateX(0px) rotate(0deg);
+opacity: 0;
+}
+10% { opacity: 1; }
+90% { opacity: 1; }
+to {
+transform: translateY(-100px) translateX(100px) rotate(360deg);
+opacity: 0;
+}
+}
+
+/* Enhanced footer */
+footer{
+position:fixed;left:0;right:0;bottom:18px;text-align:center;
+color:rgba(255,255,255,0.5);font-size:13px;z-index:7;
+animation: footerFadeIn 2s ease-out 1.5s both;
+}
+
+@keyframes footerFadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 0.5; transform: translateY(0); }
+}
+
+/* Animated hint */
+#hint{
+position:fixed;top:14px;right:14px;z-index:9;
+background:rgba(0,0,0,0.25);padding:8px 10px;border-radius:8px;
+font-size:13px;border:1px solid rgba(255,255,255,0.04);
+animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+0%, 100% { transform: scale(1); opacity: 0.8; }
+50% { transform: scale(1.05); opacity: 1; }
+}
+
+/* Open button enhancement */
+.open-btn {
+position:fixed;
+z-index:11;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+padding:16px 24px;
+border-radius:16px;
+border:none;
+background: linear-gradient(135deg, var(--gold), #f0dca6, var(--gold));
+background-size: 200% 200%;
+color: var(--navy);
+font-weight:700;
+font-size: 16px;
+box-shadow:0 10px 40px rgba(3,6,12,0.8);
+cursor: pointer;
+animation: openBtnEntrance 1s ease-out, openBtnGlow 3s ease-in-out infinite;
+transition: all 0.3s ease;
+}
+
+@keyframes openBtnEntrance {
+from {
+opacity: 0;
+transform: translate(-50%, -50%) scale(0.5) rotateY(180deg);
+}
+to {
+opacity: 1;
+transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+}
+}
+
+@keyframes openBtnGlow {
+0%, 100% {
+background-position: 0% 50%;
+box-shadow: 0 10px 40px rgba(3,6,12,0.8), 0 0 20px rgba(212,175,55,0.3);
+}
+50% {
+background-position: 100% 50%;
+box-shadow: 0 15px 50px rgba(3,6,12,0.9), 0 0 30px rgba(212,175,55,0.6);
+}
+}
+
+.open-btn:hover {
+transform: translate(-50%, -50%) scale(1.1);
+box-shadow: 0 15px 50px rgba(3,6,12,0.9), 0 0 40px rgba(212,175,55,0.8);
+}
+
+/* Responsive */
+@media (max-width:760px){
+.card{flex-direction:column;padding:18px}
+.photo{width:100%;height:220px;flex:none;}
+h1{font-size:26px}
+.open-btn{
+padding:14px 20px;
+font-size:15px;
+}
+}
+</style>
+
+</head>
+<body>
+
+<!-- Animated background stars -->
+
+<div class="stars" id="stars"></div>
+
+<canvas id="fireworkCanvas"></canvas>
+
+<!-- Background Music - Wedding Anniversary Song -->
+<audio id="backgroundMusic" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2023/04/12/audio_16ba24a2de.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_d50b75b18c.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Fireworks Sound Effects -->
+<audio id="fireworkSound1" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c610232dcd.mp3" type="audio/mpeg">
+</audio>
+<audio id="fireworkSound2" preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/11/08/audio_1c0b4b6d91.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music Control -->
+<div class="music-control" id="musicControl" title="Controlează muzica">
+  <div class="music-icon">🎵</div>
+  <span id="musicText">Muzică</span>
+</div>
+
+<div id="hint">Apasă "Deschide invitația" pentru artificii ✨</div>
+
+<div class="curtain left" id="leftCurtain"></div>
+<div class="curtain right" id="rightCurtain"></div>
+
+<div class="stage" id="stage" aria-hidden="true" style="visibility:hidden">
+  <div class="card" role="dialog" aria-labelledby="title">
+    <div class="photo" id="photoWrap">
+      <img id="photoImg" alt="Mihail &amp; Ana" src="">
+    </div>
+    <div class="content">
+      <h1 id="title">Mihail &amp; Ana — 9 ani</h1>
+      <p class="lead">Cu mare bucurie vă invităm să sărbătorim împreună aniversarea nunții noastre.</p>
+
+      <div class="details" aria-label="Detalii">
+        <div class="pill location-pill" onclick="window.open('https://maps.app.goo.gl/KV4c4k2MLLdkpRfP7', '_blank')">📍 Restaurant Juicy Crab — Constanța</div>
+        <div class="pill">🕖 Ora: 19:00 (astăzi)</div>
+        <div class="pill">🎉 Aniversare: 9 ani</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" id="rsvpBtn">RSVP via WhatsApp</button>
+        <button class="btn ghost" id="closeBtn">Închide</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer id="footer" style="visibility:hidden">Vă așteptăm cu drag — Mihail &amp; Ana</footer>
+
+<script>
+/* ---------- User-visible text (you can edit) ---------- */
+const HOST_NAMES = {
+  names: "Mihail & Ana",
+  place: "Restaurant Juicy Crab, Constanța", 
+  time: "19:00",
+  message: "Cu mare bucurie vă invităm să sărbătorim împreună aniversarea nunții noastre."
+};
+/* ------------------------------------------------------ */
+
+/* Create animated background stars */
+function createStars() {
+  const starsContainer = document.getElementById('stars');
+  for(let i = 0; i < 50; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 3 + 's';
+    star.style.animationDuration = (2 + Math.random() * 2) + 's';
+    starsContainer.appendChild(star);
+  }
+}
+createStars();
+
+/* Create floating particles */
+function createFloatingParticles() {
+  setInterval(() => {
+    if(Math.random() < 0.3) {
+      const particle = document.createElement('div');
+      particle.className = 'floating-particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = '0s';
+      particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+      document.body.appendChild(particle);
+      
+      setTimeout(() => {
+        if(particle.parentNode) particle.parentNode.removeChild(particle);
+      }, 10000);
+    }
+  }, 2000);
+}
+
+/* Set placeholder elegant image */
+const svg = encodeURIComponent(`
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1600'>
+  <defs>
+    <linearGradient id='g' x1='0' x2='1' y1='0' y2='1'>
+      <stop offset='0' stop-color='#0b2545'/>
+      <stop offset='1' stop-color='#061025'/>
+    </linearGradient>
+    <radialGradient id='glow' cx='50%' cy='40%'>
+      <stop offset='0' stop-color='#d4af37' stop-opacity='0.1'/>
+      <stop offset='100' stop-color='transparent'/>
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </defs>
+  <rect width='100%' height='100%' fill='url(#g)' />
+  <circle cx='800' cy='600' r='400' fill='url(#glow)'/>
+  <g fill='none' stroke='#d4af37' stroke-opacity='0.08' stroke-width='3'>
+    <circle cx='300' cy='400' r='420'/>
+    <circle cx='1200' cy='1100' r='780'/>
+    <circle cx='800' cy='800' r='600' stroke-dasharray='10,5'/>
+    <path d='M400 1300 C 700 900, 1100 900, 1400 1300' stroke-linecap='round'/>
+  </g>
+  <g opacity='0.6'>
+    <circle cx='200' cy='300' r='3' fill='#d4af37'/>
+    <circle cx='1400' cy='500' r='2' fill='#d4af37'/>
+    <circle cx='600' cy='200' r='2' fill='#d4af37'/>
+    <circle cx='1100' cy='300' r='3' fill='#d4af37'/>
+    <circle cx='400' cy='1400' r='2' fill='#d4af37'/>
+  </g>
+  <text x='50%' y='52%' font-size='120' font-family='Georgia, serif' fill='#d4af37' text-anchor='middle' opacity='0.95'>Mihail &amp; Ana</text>
+  <text x='50%' y='62%' font-size='52' font-family='Georgia, serif' fill='#ffffff' text-anchor='middle' opacity='0.85'>9 ani împreună</text>
+  <text x='50%' y='70%' font-size='42' font-family='Georgia, serif' fill='#d4af37' text-anchor='middle' opacity='0.7'>19:00 • Astăzi</text>
+</svg>`);
+document.getElementById('photoImg').src = 'data:image/svg+xml;utf8,' + svg;
+
+/* Set dynamic text */
+document.getElementById('title').textContent = HOST_NAMES.names + " — 9 ani";
+document.querySelector('.lead').textContent = HOST_NAMES.message;
+document.querySelector('.details .pill:nth-child(1)').textContent = "📍 " + HOST_NAMES.place;
+document.querySelector('.details .pill:nth-child(2)').textContent = "🕖 Ora: " + HOST_NAMES.time;
+
+/* Background Music Control */
+const backgroundMusic = document.getElementById('backgroundMusic');
+const fireworkSound1 = document.getElementById('fireworkSound1');
+const fireworkSound2 = document.getElementById('fireworkSound2');
+const musicControl = document.getElementById('musicControl');
+const musicText = document.getElementById('musicText');
+let isPlaying = false;
+
+// Set wedding anniversary music
+backgroundMusic.volume = 0.4;
+fireworkSound1.volume = 0.6;
+fireworkSound2.volume = 0.6;
+
+// Play fireworks sound effect
+function playFireworkSound() {
+  const sounds = [fireworkSound1, fireworkSound2];
+  const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+  randomSound.currentTime = 0;
+  randomSound.play().catch(e => console.log('Sound play prevented'));
+}
+
+musicControl.addEventListener('click', function() {
+  if (isPlaying) {
+    backgroundMusic.pause();
+    musicText.textContent = 'Muzică';
+    musicControl.classList.remove('playing');
+    isPlaying = false;
+  } else {
+    backgroundMusic.play().then(() => {
+      musicText.textContent = 'Pauză';
+      musicControl.classList.add('playing');
+      isPlaying = true;
+    }).catch(e => {
+      console.log('Music play prevented:', e);
+      musicText.textContent = 'Apasă pentru muzică';
+    });
+  }
+});
+
+// Auto-start music when invitation opens
+function startBackgroundMusic() {
+  // Try to start music immediately
+  backgroundMusic.play().then(() => {
+    isPlaying = true;
+    musicControl.classList.add('playing');
+    musicText.textContent = 'Pauză';
+  }).catch(e => {
+    console.log('Autoplay prevented, trying with user interaction');
+    musicText.textContent = 'Apasă pentru muzică';
+    
+    // Create an invisible overlay that captures the first click
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      cursor: pointer;
+    `;
+    overlay.innerHTML = `
+      <div>
+        <div style="font-size: 48px; margin-bottom: 20px;">🎵</div>
+        <div>Apasă oriunde pentru a începe muzica</div>
+        <div style="font-size: 14px; margin-top: 10px; opacity: 0.7;">Browserul necesită interacțiune pentru audio</div>
+      </div>
+    `;
+    
+    overlay.addEventListener('click', function() {
+      backgroundMusic.play().then(() => {
+        isPlaying = true;
+        musicControl.classList.add('playing');
+        musicText.textContent = 'Pauză';
+        overlay.remove();
+      });
+    });
+    
+    document.body.appendChild(overlay);
+  });
+}
+
+/* RSVP button */
+const rsvpBtn = document.getElementById('rsvpBtn');
+const rsvpText = encodeURIComponent(`Confirm: Vă mulțumim! Mihail & Ana — Vom participa la aniversarea de astăzi la ${HOST_NAMES.place}, ora ${HOST_NAMES.time}.`);
+rsvpBtn.onclick = ()=> {
+  const url = "https://api.whatsapp.com/send?text=" + rsvpText;
+  window.open(url,'_blank');
+};
+
+/* Stage visibility */
+const stage = document.getElementById('stage');
+const footer = document.getElementById('footer');
+
+/* Curtain controls */
+const leftCurtain = document.getElementById('leftCurtain');
+const rightCurtain = document.getElementById('rightCurtain');
+const hint = document.getElementById('hint');
+
+function openExperience(){
+  hint.style.display = 'none';
+  // Start floating particles
+  createFloatingParticles();
+  
+  // Enhanced fireworks sequence
+  startFireworks(4500);
+  
+  setTimeout(()=> {
+    leftCurtain.classList.add('open');
+    rightCurtain.classList.add('open');
+  }, 1500);
+  
+  setTimeout(()=> {
+    stage.style.visibility='visible';
+    stage.setAttribute('aria-hidden','false');
+    stage.classList.add('visible');
+    footer.style.visibility='visible';
+    
+    // Start background music
+    startBackgroundMusic();
+  }, 2000);
+}
+
+/* Click handler */
+document.addEventListener('click', function handler(e){
+  if(e.target.id === 'rsvpBtn' || e.target.id === 'closeBtn') return;
+  document.removeEventListener('click', handler);
+  openExperience();
+});
+
+/* Close button */
+document.getElementById('closeBtn').addEventListener('click', ()=> {
+  location.reload();
+});
+
+/* Enhanced fireworks system */
+const canvas = document.getElementById('fireworkCanvas');
+const ctx = canvas.getContext('2d');
+let cw, ch, particles = [], rockets = [], animationId;
+
+function resize(){
+  cw = canvas.width = window.innerWidth;
+  ch = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function random(min,max){ return Math.random()*(max-min)+min; }
+
+// Enhanced color palette
+const colors = [
+  '#d4af37', '#f0dca6', '#ffd700', '#ffed4e', 
+  '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4',
+  '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'
+];
+
+class Rocket{
+  constructor(x,y,tx,ty){
+    this.x = x; this.y = y; this.tx = tx; this.ty = ty;
+    this.vx = (tx-x)/40 + random(-1.5,1.5);
+    this.vy = (ty-y)/40 + random(-4,-1);
+    this.life = 0;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.trail = [];
+  }
+  
+  update(){
+    this.trail.push({x: this.x, y: this.y});
+    if(this.trail.length > 8) this.trail.shift();
+    
+    this.x += this.vx; 
+    this.y += this.vy; 
+    this.vy += 0.15; 
+    this.life++;
+    
+    // Draw trail
+    this.trail.forEach((point, i) => {
+      const alpha = i / this.trail.length * 0.8;
+      drawPoint(point.x, point.y, this.color, 1.5, alpha);
+    });
+    
+    if(this.life > 35 || Math.hypot(this.tx-this.x,this.ty-this.y) < 25){
+      explode(this.x, this.y, this.color);
+      return false;
+    }
+    
+    drawPoint(this.x, this.y, this.color, 3, 1);
+    return true;
+  }
+}
+
+class Particle{
+  constructor(x, y, color, type = 'normal'){
+    this.x = x; 
+    this.y = y;
+    this.type = type;
+    
+    if(type === 'heart') {
+      this.vx = random(-2, 2);
+      this.vy = random(-3, -1);
+    } else {
+      const speed = random(2, 9);
+      const angle = random(0, Math.PI * 2);
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+    }
+    
+    this.life = 0; 
+    this.ttl = random(50, 120);
+    this.color = color;
+    this.size = random(1, 3);
+  }
+  
+  update(){
+    this.x += this.vx; 
+    this.y += this.vy; 
+    this.vy += 0.08; 
+    this.vx *= 0.98; 
+    this.vy *= 0.98;
+    this.life++;
+    
+    const alpha = Math.max(1 - this.life/this.ttl, 0);
+    const size = Math.max(0.3, this.size * alpha);
+    
+    if(this.type === 'heart') {
+      drawHeart(this.x, this.y, size * 3, this.color, alpha);
+    } else {
+      drawPoint(this.x, this.y, this.color, size, alpha);
+    }
+    
+    return this.life < this.ttl;
+  }
+}
+
+function explode(x, y, color){
+  // Play firework sound effect
+  playFireworkSound();
+  
+  // Regular particles
+  for(let i = 0; i < 100; i++) {
+    particles.push(new Particle(x, y, color));
+  }
+  
+  // Special heart particles occasionally
+  if(Math.random() < 0.3) {
+    for(let i = 0; i < 8; i++) {
+      particles.push(new Particle(x, y, '#ff6b6b', 'heart'));
+    }
+  }
+}
+
+function drawPoint(x, y, color, size = 2, alpha = 1){
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Add glow effect
+  ctx.shadowBlur = size * 2;
+  ctx.shadowColor = color;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  ctx.globalAlpha = 1;
+}
+
+function drawHeart(x, y, size, color, alpha = 1) {
+  ctx.globalAlpha = alpha;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  
+  const topCurveHeight = size * 0.3;
+  ctx.moveTo(x, y + topCurveHeight);
+  
+  // Left curve
+  ctx.bezierCurveTo(
+    x, y, 
+    x - size /2, y, 
+    x - size / 2, y + topCurveHeight
+  );
+  
+  // Left bottom curve
+  ctx.bezierCurveTo(
+    x - size / 2, y + (topCurveHeight + size) / 2, 
+    x, y + (topCurveHeight + size) / 2, 
+    x, y + size
+  );
+  
+  // Right bottom curve  
+  ctx.bezierCurveTo(
+    x, y + (topCurveHeight + size) / 2, 
+    x + size / 2, y + (topCurveHeight + size) / 2, 
+    x + size / 2, y + topCurveHeight
+  );
+  
+  // Right curve
+  ctx.bezierCurveTo(
+    x + size / 2, y, 
+    x, y, 
+    x, y + topCurveHeight
+  );
+  
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+let lastLaunch = 0;
+function launchRandom(){
+  const now = Date.now();
+  if(now - lastLaunch < 200) return;
+  lastLaunch = now;
+  
+  const x = random(cw * 0.15, cw * 0.85);
+  const targetY = random(ch * 0.1, ch * 0.5);
+  
+  rockets.push(new Rocket(
+    random(cw * 0.1, cw * 0.9), 
+    ch + 10, 
+    x, 
+    targetY
+  ));
+}
+
+function loop(){
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = 'rgba(2,6,12,0.15)';
+  ctx.fillRect(0, 0, cw, ch);
+  ctx.globalCompositeOperation = 'lighter';
+  
+  // Update rockets
+  rockets = rockets.filter(r => r.update());
+  
+  // Update particles  
+  particles = particles.filter(p => p.update());
+  
+  // Launch rockets more frequently
+  if(Math.random() < 0.4) launchRandom();
+  
+  animationId = requestAnimationFrame(loop);
+}
+
+/* Enhanced fireworks starter */
+function startFireworks(duration = 4500){
+  // Initial spectacular burst
+  for(let i = 0; i < 8; i++){
+    setTimeout(() => {
+      const x = random(cw * 0.2, cw * 0.8);
+      const y = random(ch * 0.15, ch * 0.45);
+      rockets.push(new Rocket(
+        random(cw * 0.1, cw * 0.9), 
+        ch + 10, 
+        x, 
+        y
+      ));
+    }, i * 200);
+  }
+  
+  // Start animation loop
+  if(!animationId) loop();
+  
+  // Stop after duration with fade
+  setTimeout(()=> {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+    
+    // Gentle fade out
+    let fadeStart = performance.now();
+    (function fade(now){
+      const elapsed = now - fadeStart;
+      const progress = Math.min(elapsed / 1000, 1);
+      
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = `rgba(2,6,12,${0.1 + progress * 0.4})`;
+      ctx.fillRect(0, 0, cw, ch);
+      
+      if(progress < 1) {
+        requestAnimationFrame(fade);
+      } else {
+        ctx.clearRect(0, 0, cw, ch);
+      }
+    })(performance.now());
+  }, duration);
+}
+
+/* Keyboard accessibility */
+document.addEventListener('keydown', (e)=> {
+  if(e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    openExperience();
+  }
+});
+
+/* Enhanced open button with delay */
+let openButtonTimeout = setTimeout(()=> {
+  const btn = document.createElement('button');
+  btn.textContent = '✨ Deschide invitația ✨';
+  btn.className = 'open-btn';
+  
+  btn.onclick = ()=> { 
+    document.body.removeChild(btn); 
+    clearTimeout(openButtonTimeout);
+    openExperience(); 
+  };
+  
+  document.body.appendChild(btn);
+  
+  // Add ripple effect on click
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+      position: absolute;
+      left: ${x}px;
+      top: ${y}px;
+      width: ${size}px;
+      height: ${size}px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    `;
+    
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+}, 2500);
+
+/* Add ripple animation */
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes ripple {
+    to {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+`;
+document.head.appendChild(style);
+
+/* Enhanced button interactions */
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('mouseenter', function() {
+    this.style.transform = 'translateY(-3px) scale(1.02)';
+  });
+  
+  btn.addEventListener('mouseleave', function() {
+    this.style.transform = '';
+  });
+});
+
+/* Add magical cursor trail effect */
+let mouseTrail = [];
+document.addEventListener('mousemove', (e) => {
+  mouseTrail.push({
+    x: e.clientX,
+    y: e.clientY,
+    time: Date.now()
+  });
+  
+  // Keep only recent points
+  mouseTrail = mouseTrail.filter(point => Date.now() - point.time < 500);
+  
+  // Create trail particles occasionally
+  if(Math.random() < 0.1) {
+    const particle = document.createElement('div');
+    particle.style.cssText = `
+      position: fixed;
+      left: ${e.clientX}px;
+      top: ${e.clientY}px;
+      width: 3px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+      animation: cursorTrail 1s ease-out forwards;
+    `;
+    
+    document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), 1000);
+  }
+});
+
+/* Add cursor trail animation */
+const cursorStyle = document.createElement('style');
+cursorStyle.textContent = `
+  @keyframes cursorTrail {
+    from {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0) translateY(-20px);
+    }
+  }
+`;
+document.head.appendChild(cursorStyle);
+
+/* Mobile touch enhancement */
+if('ontouchstart' in window) {
+  document.addEventListener('touchstart', function(e) {
+    // Create touch sparkle effect
+    const touch = e.touches[0];
+    for(let i = 0; i < 3; i++) {
+      setTimeout(() => {
+        const sparkle = document.createElement('div');
+        sparkle.style.cssText = `
+          position: fixed;
+          left: ${touch.clientX + random(-20, 20)}px;
+          top: ${touch.clientY + random(-20, 20)}px;
+          width: 4px;
+          height: 4px;
+          background: var(--gold);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 1000;
+          animation: touchSparkle 0.8s ease-out forwards;
+        `;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 800);
+      }, i * 100);
+    }
+  });
+}
+
+/* Touch sparkle animation */
+const touchStyle = document.createElement('style');
+touchStyle.textContent = `
+  @keyframes touchSparkle {
+    from {
+      opacity: 1;
+      transform: scale(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0) translateY(-30px);
+    }
+  }
+`;
+document.head.appendChild(touchStyle);
+
+/* Auto-open fallback for very patient users */
+setTimeout(() => {
+  const hintEl = document.getElementById('hint');
+  if(hintEl && hintEl.style.display !== 'none') {
+    hintEl.innerHTML = '🎆 Invitația se va deschide automat în 3 secunde...';
+    setTimeout(() => {
+      if(stage.style.visibility === 'hidden') {
+        openExperience();
+      }
+    }, 3000);
+  }
+}, 15000);
+
+/* Helper function for safe CSS variable access */
+function varSafe(name){ 
+  const s = getComputedStyle(document.documentElement).getPropertyValue(name); 
+  return s ? s.trim() : '#0b2545'; 
+}
+</script>
+</body>
+</html>
